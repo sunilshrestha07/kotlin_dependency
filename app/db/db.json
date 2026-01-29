@@ -1,0 +1,536 @@
+{
+  "categories": [
+    {
+      "id": "ktor",
+      "name": "Ktor Client",
+      "description": "HTTP client for network operations",
+      "icon": "🌐",
+      "color": "#FF6B35",
+      "platform": ["common", "android", "ios"]
+    },
+    {
+      "id": "koin",
+      "name": "Koin DI",
+      "description": "Dependency Injection framework",
+      "icon": "💉",
+      "color": "#4ECDC4",
+      "platform": ["common"]
+    },
+    {
+      "id": "compose",
+      "name": "Compose Multiplatform",
+      "description": "UI framework for KMP",
+      "icon": "🎨",
+      "color": "#9B59B6",
+      "platform": ["common", "android", "ios", "desktop"]
+    },
+    {
+      "id": "navigation",
+      "name": "Navigation",
+      "description": "Navigation component for Compose",
+      "icon": "🧭",
+      "color": "#3498DB",
+      "platform": ["common"]
+    },
+    {
+      "id": "coil",
+      "name": "Coil Image Loading",
+      "description": "Image loading library for Compose",
+      "icon": "🖼️",
+      "color": "#E74C3C",
+      "platform": ["common"]
+    },
+    {
+      "id": "datastore",
+      "name": "DataStore",
+      "description": "Data storage solution",
+      "icon": "💾",
+      "color": "#F39C12",
+      "platform": ["common"]
+    },
+    {
+      "id": "serialization",
+      "name": "Kotlinx Serialization",
+      "description": "JSON serialization",
+      "icon": "📦",
+      "color": "#16A085",
+      "platform": ["common"]
+    },
+    {
+      "id": "coroutines",
+      "name": "Coroutines",
+      "description": "Asynchronous programming",
+      "icon": "⚡",
+      "color": "#8E44AD",
+      "platform": ["common"]
+    },
+    {
+      "id": "firebase",
+      "name": "Firebase",
+      "description": "Firebase services for Android",
+      "icon": "🔥",
+      "color": "#FF9800",
+      "platform": ["android"]
+    },
+    {
+      "id": "testing",
+      "name": "Testing",
+      "description": "Testing libraries",
+      "icon": "🧪",
+      "color": "#27AE60",
+      "platform": ["common"]
+    },
+    {
+      "id": "socketio",
+      "name": "Socket.IO",
+      "description": "Real-time communication",
+      "icon": "🔌",
+      "color": "#34495E",
+      "platform": ["common"]
+    }
+  ],
+  "dependencies": [
+    {
+      "id": "ktor-client-core",
+      "categoryId": "ktor",
+      "name": "ktor-client-core",
+      "version": "3.3.1",
+      "module": "io.ktor:ktor-client-core",
+      "platform": "common",
+      "required": true
+    },
+    {
+      "id": "ktor-client-okhttp",
+      "categoryId": "ktor",
+      "name": "ktor-client-okhttp",
+      "version": "3.3.1",
+      "module": "io.ktor:ktor-client-okhttp",
+      "platform": "android",
+      "required": false
+    },
+    {
+      "id": "ktor-client-darwin",
+      "categoryId": "ktor",
+      "name": "ktor-client-darwin",
+      "version": "3.3.1",
+      "module": "io.ktor:ktor-client-darwin",
+      "platform": "ios",
+      "required": false
+    },
+    {
+      "id": "ktor-client-logging",
+      "categoryId": "ktor",
+      "name": "ktor-client-logging",
+      "version": "3.3.1",
+      "module": "io.ktor:ktor-client-logging",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "ktor-client-content-negotiation",
+      "categoryId": "ktor",
+      "name": "ktor-client-content-negotiation",
+      "version": "3.3.1",
+      "module": "io.ktor:ktor-client-content-negotiation",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "ktor-serialization-kotlinx-json",
+      "categoryId": "ktor",
+      "name": "ktor-serialization-kotlinx-json",
+      "version": "3.3.1",
+      "module": "io.ktor:ktor-serialization-kotlinx-json",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "koin-core",
+      "categoryId": "koin",
+      "name": "koin-core",
+      "version": "4.1.1",
+      "module": "io.insert-koin:koin-core",
+      "platform": "common",
+      "required": true
+    },
+    {
+      "id": "koin-compose",
+      "categoryId": "koin",
+      "name": "koin-compose",
+      "version": "4.1.1",
+      "module": "io.insert-koin:koin-compose",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "koin-compose-viewmodel",
+      "categoryId": "koin",
+      "name": "koin-compose-viewmodel",
+      "version": "4.1.1",
+      "module": "io.insert-koin:koin-compose-viewmodel",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "koin-annotations",
+      "categoryId": "koin",
+      "name": "koin-annotations",
+      "version": "2.1.0",
+      "module": "io.insert-koin:koin-annotations",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "koin-ksp-compiler",
+      "categoryId": "koin",
+      "name": "koin-ksp-compiler",
+      "version": "2.1.0",
+      "module": "io.insert-koin:koin-ksp-compiler",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "androidx-activity-compose",
+      "categoryId": "compose",
+      "name": "androidx-activity-compose",
+      "version": "1.11.0",
+      "module": "androidx.activity:activity-compose",
+      "platform": "android",
+      "required": true
+    },
+    {
+      "id": "androidx-lifecycle-viewmodel",
+      "categoryId": "compose",
+      "name": "androidx-lifecycle-viewmodelCompose",
+      "version": "2.9.4",
+      "module": "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "material3",
+      "categoryId": "compose",
+      "name": "material3",
+      "version": "1.9.0-beta06",
+      "module": "org.jetbrains.compose.material3:material3",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "org-jetbrains-navigation",
+      "categoryId": "navigation",
+      "name": "navigation-compose",
+      "version": "2.9.0",
+      "module": "org.jetbrains.androidx.navigation:navigation-compose",
+      "platform": "common",
+      "required": true
+    },
+    {
+      "id": "coil-compose",
+      "categoryId": "coil",
+      "name": "coil-compose",
+      "version": "3.3.0",
+      "module": "io.coil-kt.coil3:coil-compose",
+      "platform": "common",
+      "required": true
+    },
+    {
+      "id": "coil-network-ktor",
+      "categoryId": "coil",
+      "name": "coil-network-okhttp",
+      "version": "3.3.0",
+      "module": "io.coil-kt.coil3:coil-network-okhttp",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "datastore-core",
+      "categoryId": "datastore",
+      "name": "datastore-core-okio",
+      "version": "1.1.7",
+      "module": "androidx.datastore:datastore-core-okio",
+      "platform": "common",
+      "required": true
+    },
+    {
+      "id": "datastore-preferences",
+      "categoryId": "datastore",
+      "name": "datastore-preferences-core",
+      "version": "1.1.7",
+      "module": "androidx.datastore:datastore-preferences-core",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "kotlinx-serialization-json",
+      "categoryId": "serialization",
+      "name": "kotlinx-serialization-json",
+      "version": "1.9.0",
+      "module": "org.jetbrains.kotlinx:kotlinx-serialization-json",
+      "platform": "common",
+      "required": true
+    },
+    {
+      "id": "kotlinx-coroutines-core",
+      "categoryId": "coroutines",
+      "name": "kotlinx-coroutines-core",
+      "version": "1.10.2",
+      "module": "org.jetbrains.kotlinx:kotlinx-coroutines-core",
+      "platform": "common",
+      "required": true
+    },
+    {
+      "id": "kotlinx-coroutines-test",
+      "categoryId": "coroutines",
+      "name": "kotlinx-coroutines-test",
+      "version": "1.10.2",
+      "module": "org.jetbrains.kotlinx:kotlinx-coroutines-test",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "firebase-bom",
+      "categoryId": "firebase",
+      "name": "firebase-bom",
+      "version": "34.4.0",
+      "module": "com.google.firebase:firebase-bom",
+      "platform": "android",
+      "required": true
+    },
+    {
+      "id": "firebase-messaging",
+      "categoryId": "firebase",
+      "name": "firebase-messaging",
+      "version": "25.0.1",
+      "module": "com.google.firebase:firebase-messaging",
+      "platform": "android",
+      "required": false
+    },
+    {
+      "id": "kotest-assertions",
+      "categoryId": "testing",
+      "name": "kotest-assertions-core",
+      "version": "6.0.3",
+      "module": "io.kotest:kotest-assertions-core",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "koin-test",
+      "categoryId": "testing",
+      "name": "koin-test",
+      "version": "4.1.1",
+      "module": "io.insert-koin:koin-test",
+      "platform": "common",
+      "required": false
+    },
+    {
+      "id": "kmp-socketio",
+      "categoryId": "socketio",
+      "name": "kmp-socketio",
+      "version": "1.4.0",
+      "module": "com.piasy:kmp-socketio",
+      "platform": "common",
+      "required": true
+    }
+  ],
+  "guides": [
+    {
+      "id": "ktor-setup",
+      "categoryId": "ktor",
+      "title": "Ktor Client Setup Guide",
+      "steps": [
+        {
+          "title": "Add Dependencies",
+          "content": "Add the following to your libs.versions.toml file:\n\n```toml\n[versions]\nktor = \"3.3.1\"\n\n[libraries]\nktor-client-core = { module = \"io.ktor:ktor-client-core\", version.ref = \"ktor\" }\nktor-client-okhttp = { module = \"io.ktor:ktor-client-okhttp\", version.ref = \"ktor\" }\nktor-client-darwin = { module = \"io.ktor:ktor-client-darwin\", version.ref = \"ktor\" }\nktor-client-logging = { module = \"io.ktor:ktor-client-logging\", version.ref = \"ktor\" }\nktor-client-content-negotiation = { module = \"io.ktor:ktor-client-content-negotiation\", version.ref = \"ktor\" }\nktor-serialization-kotlinx-json = { module = \"io.ktor:ktor-serialization-kotlinx-json\", version.ref = \"ktor\" }\n```"
+        },
+        {
+          "title": "Configure build.gradle.kts",
+          "content": "In your shared module's build.gradle.kts:\n\n```kotlin\nkotlin {\n    sourceSets {\n        commonMain.dependencies {\n            implementation(libs.ktor.client.core)\n            implementation(libs.ktor.client.logging)\n            implementation(libs.ktor.client.content.negotiation)\n            implementation(libs.ktor.serialization.kotlinx.json)\n        }\n        \n        androidMain.dependencies {\n            implementation(libs.ktor.client.okhttp)\n        }\n        \n        iosMain.dependencies {\n            implementation(libs.ktor.client.darwin)\n        }\n    }\n}\n```"
+        },
+        {
+          "title": "Create HTTP Client",
+          "content": "Create a common HTTP client:\n\n```kotlin\nimport io.ktor.client.*\nimport io.ktor.client.plugins.contentnegotiation.*\nimport io.ktor.client.plugins.logging.*\nimport io.ktor.serialization.kotlinx.json.*\nimport kotlinx.serialization.json.Json\n\nfun createHttpClient(): HttpClient {\n    return HttpClient {\n        install(ContentNegotiation) {\n            json(Json {\n                prettyPrint = true\n                isLenient = true\n                ignoreUnknownKeys = true\n            })\n        }\n        \n        install(Logging) {\n            logger = Logger.DEFAULT\n            level = LogLevel.INFO\n        }\n    }\n}\n```"
+        },
+        {
+          "title": "Make API Calls",
+          "content": "Example API call:\n\n```kotlin\nimport io.ktor.client.call.*\nimport io.ktor.client.request.*\nimport kotlinx.serialization.Serializable\n\n@Serializable\ndata class User(val id: Int, val name: String)\n\nclass ApiService(private val client: HttpClient) {\n    suspend fun getUser(id: Int): User {\n        return client.get(\"https://api.example.com/users/$id\")\n            .body()\n    }\n    \n    suspend fun createUser(user: User): User {\n        return client.post(\"https://api.example.com/users\") {\n            setBody(user)\n        }.body()\n    }\n}\n```"
+        }
+      ]
+    },
+    {
+      "id": "koin-setup",
+      "categoryId": "koin",
+      "title": "Koin Dependency Injection Setup",
+      "steps": [
+        {
+          "title": "Add Dependencies",
+          "content": "Add to libs.versions.toml:\n\n```toml\n[versions]\nkoin-core = \"4.1.1\"\nkoin-annotations = \"2.1.0\"\nksp = \"2.2.20-2.0.2\"\n\n[libraries]\nkoin-core = { module = \"io.insert-koin:koin-core\", version.ref = \"koin-core\" }\nkoin-compose = { module = \"io.insert-koin:koin-compose\", version.ref = \"koin-core\" }\nkoin-compose-viewmodel = { module = \"io.insert-koin:koin-compose-viewmodel\", version.ref = \"koin-core\" }\nkoin-annotations = { module = \"io.insert-koin:koin-annotations\", version.ref = \"koin-annotations\" }\nkoin-ksp-compiler = { module = \"io.insert-koin:koin-ksp-compiler\", version.ref = \"koin-annotations\" }\n\n[plugins]\nksp = { id = \"com.google.devtools.ksp\", version.ref = \"ksp\" }\n```"
+        },
+        {
+          "title": "Apply KSP Plugin",
+          "content": "In your shared module's build.gradle.kts:\n\n```kotlin\nplugins {\n    alias(libs.plugins.ksp)\n}\n\nkotlin {\n    sourceSets.commonMain {\n        kotlin.srcDir(\"build/generated/ksp/metadata/commonMain/kotlin\")\n    }\n}\n```"
+        },
+        {
+          "title": "Define Modules",
+          "content": "Create Koin modules:\n\n```kotlin\nimport org.koin.core.annotation.ComponentScan\nimport org.koin.core.annotation.Module\n\n@Module\n@ComponentScan(\"com.yourapp\")\nclass AppModule\n\n// Or manually:\nval networkModule = module {\n    single { createHttpClient() }\n    single { ApiService(get()) }\n}\n\nval viewModelModule = module {\n    viewModel { MainViewModel(get()) }\n}\n```"
+        },
+        {
+          "title": "Initialize Koin",
+          "content": "In your common code:\n\n```kotlin\nimport org.koin.core.context.startKoin\nimport org.koin.ksp.generated.*\n\nfun initKoin() {\n    startKoin {\n        modules(\n            AppModule().module,\n            networkModule,\n            viewModelModule\n        )\n    }\n}\n```"
+        },
+        {
+          "title": "Inject Dependencies",
+          "content": "In Compose:\n\n```kotlin\nimport org.koin.compose.viewmodel.koinViewModel\nimport org.koin.compose.koinInject\n\n@Composable\nfun MyScreen() {\n    val viewModel = koinViewModel<MainViewModel>()\n    val apiService: ApiService = koinInject()\n    \n    // Use injected dependencies\n}\n```"
+        }
+      ]
+    },
+    {
+      "id": "compose-setup",
+      "categoryId": "compose",
+      "title": "Compose Multiplatform Setup",
+      "steps": [
+        {
+          "title": "Add Plugin and Dependencies",
+          "content": "In libs.versions.toml:\n\n```toml\n[versions]\ncomposeMultiplatform = \"1.9.0\"\nkotlin = \"2.2.20\"\nmaterial3 = \"1.9.0-beta06\"\n\n[plugins]\ncomposeMultiplatform = { id = \"org.jetbrains.compose\", version.ref = \"composeMultiplatform\" }\ncomposeCompiler = { id = \"org.jetbrains.kotlin.plugin.compose\", version.ref = \"kotlin\" }\n\n[libraries]\njetbrians-material3 = { module = \"org.jetbrains.compose.material3:material3\", version.ref = \"material3\" }\n```"
+        },
+        {
+          "title": "Configure Build",
+          "content": "In build.gradle.kts:\n\n```kotlin\nplugins {\n    alias(libs.plugins.composeMultiplatform)\n    alias(libs.plugins.composeCompiler)\n}\n\nkotlin {\n    sourceSets {\n        commonMain.dependencies {\n            implementation(compose.runtime)\n            implementation(compose.foundation)\n            implementation(compose.material3)\n            implementation(compose.ui)\n            implementation(compose.components.resources)\n            implementation(libs.jetbrians.material3)\n        }\n    }\n}\n```"
+        },
+        {
+          "title": "Create Composable",
+          "content": "Basic Compose UI:\n\n```kotlin\nimport androidx.compose.material3.*\nimport androidx.compose.runtime.*\nimport androidx.compose.foundation.layout.*\n\n@Composable\nfun App() {\n    MaterialTheme {\n        Surface(\n            modifier = Modifier.fillMaxSize(),\n            color = MaterialTheme.colorScheme.background\n        ) {\n            Column(\n                modifier = Modifier.padding(16.dp),\n                verticalArrangement = Arrangement.Center\n            ) {\n                Text(\n                    text = \"Hello, KMP!\",\n                    style = MaterialTheme.typography.headlineMedium\n                )\n            }\n        }\n    }\n}\n```"
+        }
+      ]
+    },
+    {
+      "id": "navigation-setup",
+      "categoryId": "navigation",
+      "title": "Navigation Setup",
+      "steps": [
+        {
+          "title": "Add Dependency",
+          "content": "```toml\n[versions]\norgJetbrainsNavigation = \"2.9.0\"\n\n[libraries]\norg-jetbrains-navigation = { group = \"org.jetbrains.androidx.navigation\", name = \"navigation-compose\", version.ref = \"orgJetbrainsNavigation\" }\n```"
+        },
+        {
+          "title": "Define Routes",
+          "content": "```kotlin\nimport kotlinx.serialization.Serializable\n\n@Serializable\nobject HomeRoute\n\n@Serializable\ndata class DetailRoute(val id: String)\n```"
+        },
+        {
+          "title": "Setup Navigation",
+          "content": "```kotlin\nimport androidx.navigation.compose.NavHost\nimport androidx.navigation.compose.composable\nimport androidx.navigation.compose.rememberNavController\nimport androidx.navigation.toRoute\n\n@Composable\nfun AppNavigation() {\n    val navController = rememberNavController()\n    \n    NavHost(\n        navController = navController,\n        startDestination = HomeRoute\n    ) {\n        composable<HomeRoute> {\n            HomeScreen(\n                onNavigateToDetail = { id ->\n                    navController.navigate(DetailRoute(id))\n                }\n            )\n        }\n        \n        composable<DetailRoute> { backStackEntry ->\n            val detail = backStackEntry.toRoute<DetailRoute>()\n            DetailScreen(id = detail.id)\n        }\n    }\n}\n```"
+        }
+      ]
+    },
+    {
+      "id": "coil-setup",
+      "categoryId": "coil",
+      "title": "Coil Image Loading Setup",
+      "steps": [
+        {
+          "title": "Add Dependencies",
+          "content": "```toml\n[versions]\ncoil3 = \"3.3.0\"\n\n[libraries]\ncoil-compose = { module = \"io.coil-kt.coil3:coil-compose\", version.ref = \"coil3\" }\ncoil-network-ktor3 = { module = \"io.coil-kt.coil3:coil-network-ktor3\", version.ref = \"coil3\" }\n```"
+        },
+        {
+          "title": "Load Images",
+          "content": "```kotlin\nimport coil3.compose.AsyncImage\nimport androidx.compose.foundation.layout.size\nimport androidx.compose.ui.Modifier\nimport androidx.compose.ui.unit.dp\n\n@Composable\nfun ImageExample() {\n    AsyncImage(\n        model = \"https://example.com/image.jpg\",\n        contentDescription = \"Example image\",\n        modifier = Modifier.size(200.dp)\n    )\n}\n```"
+        }
+      ]
+    },
+    {
+      "id": "datastore-setup",
+      "categoryId": "datastore",
+      "title": "DataStore Setup",
+      "steps": [
+        {
+          "title": "Add Dependencies",
+          "content": "```toml\n[versions]\ndataStore = \"1.1.7\"\n\n[libraries]\nandroidx-datastore-core-okio = { group = \"androidx.datastore\", name = \"datastore-core-okio\", version.ref = \"dataStore\" }\nandroidx-datastore-preferences-core = { group = \"androidx.datastore\", name = \"datastore-preferences-core\", version.ref = \"dataStore\" }\n```"
+        },
+        {
+          "title": "Create DataStore",
+          "content": "```kotlin\nimport androidx.datastore.core.DataStore\nimport androidx.datastore.preferences.core.Preferences\nimport androidx.datastore.preferences.core.edit\nimport androidx.datastore.preferences.core.stringPreferencesKey\nimport kotlinx.coroutines.flow.Flow\nimport kotlinx.coroutines.flow.map\n\nclass UserPreferences(private val dataStore: DataStore<Preferences>) {\n    companion object {\n        val USER_NAME = stringPreferencesKey(\"user_name\")\n    }\n    \n    val userName: Flow<String> = dataStore.data.map { preferences ->\n        preferences[USER_NAME] ?: \"\"\n    }\n    \n    suspend fun setUserName(name: String) {\n        dataStore.edit { preferences ->\n            preferences[USER_NAME] = name\n        }\n    }\n}\n```"
+        }
+      ]
+    },
+    {
+      "id": "serialization-setup",
+      "categoryId": "serialization",
+      "title": "Kotlinx Serialization Setup",
+      "steps": [
+        {
+          "title": "Add Plugin",
+          "content": "```toml\n[versions]\nkotlinSerialization = \"1.9.0\"\nkotlin = \"2.2.20\"\n\n[plugins]\njetbrains-kotlin-serialization = { id = \"org.jetbrains.kotlin.plugin.serialization\", version.ref = \"kotlin\" }\n\n[libraries]\nkotlinx-serialization-json = { group = \"org.jetbrains.kotlinx\", name = \"kotlinx-serialization-json\", version.ref = \"kotlinSerialization\" }\n```"
+        },
+        {
+          "title": "Use Serialization",
+          "content": "```kotlin\nimport kotlinx.serialization.Serializable\nimport kotlinx.serialization.json.Json\nimport kotlinx.serialization.encodeToString\n\n@Serializable\ndata class User(\n    val id: Int,\n    val name: String,\n    val email: String\n)\n\nval json = Json { prettyPrint = true }\n\n// Serialize\nval user = User(1, \"John\", \"john@example.com\")\nval jsonString = json.encodeToString(user)\n\n// Deserialize\nval userFromJson = json.decodeFromString<User>(jsonString)\n```"
+        }
+      ]
+    },
+    {
+      "id": "coroutines-setup",
+      "categoryId": "coroutines",
+      "title": "Coroutines Setup",
+      "steps": [
+        {
+          "title": "Add Dependencies",
+          "content": "```toml\n[versions]\nkotlinx-coroutines = \"1.10.2\"\n\n[libraries]\nkotlinx-coroutine = { group = \"org.jetbrains.kotlinx\", name = \"kotlinx-coroutines-core\", version.ref = \"kotlinx-coroutines\" }\nkotlinx-coroutines-test = { module = \"org.jetbrains.kotlinx:kotlinx-coroutines-test\", version.ref = \"kotlinx-coroutines\" }\n```"
+        },
+        {
+          "title": "Use Coroutines",
+          "content": "```kotlin\nimport kotlinx.coroutines.*\nimport kotlinx.coroutines.flow.*\n\nclass Repository {\n    suspend fun fetchData(): String {\n        delay(1000)\n        return \"Data\"\n    }\n    \n    fun observeData(): Flow<String> = flow {\n        while (true) {\n            emit(\"Update ${System.currentTimeMillis()}\")\n            delay(1000)\n        }\n    }\n}\n\n// In ViewModel\nclass MyViewModel : ViewModel() {\n    private val repository = Repository()\n    \n    val data = repository.observeData()\n        .stateIn(\n            scope = viewModelScope,\n            started = SharingStarted.WhileSubscribed(5000),\n            initialValue = \"\"\n        )\n}\n```"
+        }
+      ]
+    },
+    {
+      "id": "firebase-setup",
+      "categoryId": "firebase",
+      "title": "Firebase Setup (Android)",
+      "steps": [
+        {
+          "title": "Add Dependencies",
+          "content": "```toml\n[versions]\nfirebaseBom = \"34.4.0\"\nfirebase-messaging-ktx = \"25.0.1\"\ngoogleServices = \"4.4.4\"\n\n[libraries]\nfirebase-bom = { group = \"com.google.firebase\", name = \"firebase-bom\", version.ref = \"firebaseBom\" }\nfirebase-messaging-ktx = { group = \"com.google.firebase\", name = \"firebase-messaging\", version.ref = \"firebase-messaging-ktx\" }\n\n[plugins]\ngoogle-services = { id = \"com.google.gms.google-services\", version.ref = \"googleServices\" }\n```"
+        },
+        {
+          "title": "Configure Android",
+          "content": "In app-level build.gradle.kts:\n\n```kotlin\nplugins {\n    alias(libs.plugins.google.services)\n}\n\ndependencies {\n    implementation(platform(libs.firebase.bom))\n    implementation(libs.firebase.messaging.ktx)\n}\n```"
+        },
+        {
+          "title": "Add google-services.json",
+          "content": "Download google-services.json from Firebase Console and place it in androidApp/ directory."
+        }
+      ]
+    },
+    {
+      "id": "testing-setup",
+      "categoryId": "testing",
+      "title": "Testing Setup",
+      "steps": [
+        {
+          "title": "Add Dependencies",
+          "content": "```toml\n[versions]\nkotest-version = \"6.0.3\"\nkoin-core = \"4.1.1\"\n\n[libraries]\nkotest-assertions = { group = \"io.kotest\", name = \"kotest-assertions-core\", version.ref = \"kotest-version\" }\nkotest-framework = { group = \"io.kotest\", name = \"kotest-framework-engine\", version.ref = \"kotest-version\" }\nkoin-test = { module = \"io.insert-koin:koin-test\", version.ref = \"koin-core\" }\n```"
+        },
+        {
+          "title": "Write Tests",
+          "content": "```kotlin\nimport io.kotest.matchers.shouldBe\nimport org.koin.test.KoinTest\nimport kotlin.test.Test\n\nclass MyTest : KoinTest {\n    @Test\n    fun `test example`() {\n        val result = 2 + 2\n        result shouldBe 4\n    }\n}\n```"
+        }
+      ]
+    },
+    {
+      "id": "socketio-setup",
+      "categoryId": "socketio",
+      "title": "Socket.IO Setup",
+      "steps": [
+        {
+          "title": "Add Dependency",
+          "content": "```toml\n[versions]\nkmpSocketio = \"1.4.0\"\n\n[libraries]\nkmp-socketio = { module = \"com.piasy:kmp-socketio\", version.ref = \"kmpSocketio\" }\n```"
+        },
+        {
+          "title": "Create Socket Client",
+          "content": "```kotlin\nimport com.piasy.kmp.socketio.SocketIO\nimport com.piasy.kmp.socketio.SocketIOOptions\n\nclass SocketManager {\n    private val socket = SocketIO.create(\n        \"https://your-socket-server.com\",\n        SocketIOOptions()\n    )\n    \n    fun connect() {\n        socket.on(\"message\") { args ->\n            println(\"Received: ${args.first()}\")\n        }\n        socket.connect()\n    }\n    \n    fun emit(event: String, data: String) {\n        socket.emit(event, data)\n    }\n    \n    fun disconnect() {\n        socket.disconnect()\n    }\n}\n```"
+        }
+      ]
+    }
+  ]
+}
