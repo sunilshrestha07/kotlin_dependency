@@ -66,9 +66,9 @@ export default function CategoryPage() {
   const fetchData = async () => {
     try {
       const [categoryRes, dependenciesRes, guidesRes] = await Promise.all([
-        fetch(`http://localhost:3001/categories?id=${categoryId}`),
-        fetch(`http://localhost:3001/dependencies?categoryId=${categoryId}`),
-        fetch(`http://localhost:3001/guides?categoryId=${categoryId}`)
+        fetch(`/api/categories?id=${categoryId}`),
+        fetch(`/api/dependencies?categoryId=${categoryId}`),
+        fetch(`/api/guides?categoryId=${categoryId}`)
       ])
 
       const categoryData = await categoryRes.json()

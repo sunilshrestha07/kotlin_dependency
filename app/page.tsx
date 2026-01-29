@@ -39,8 +39,8 @@ export default function Home() {
   const fetchData = async () => {
     try {
       const [categoriesRes, dependenciesRes] = await Promise.all([
-        fetch('http://localhost:3001/categories'),
-        fetch('http://localhost:3001/dependencies')
+        fetch('/api/categories'),
+        fetch('/api/dependencies')
       ])
       const categoriesData = await categoriesRes.json()
       const dependenciesData = await dependenciesRes.json()
@@ -280,7 +280,7 @@ function AddDependencyModal({
     }
 
     try {
-      await fetch('http://localhost:3001/dependencies', {
+      await fetch('/api/dependencies', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newDependency)
