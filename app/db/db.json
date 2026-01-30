@@ -6,7 +6,11 @@
       "description": "HTTP client for network operations",
       "icon": "🌐",
       "color": "#FF6B35",
-      "platform": ["common", "android", "ios"]
+      "platform": [
+        "common",
+        "android",
+        "ios"
+      ]
     },
     {
       "id": "koin",
@@ -14,7 +18,9 @@
       "description": "Dependency Injection framework",
       "icon": "💉",
       "color": "#4ECDC4",
-      "platform": ["common"]
+      "platform": [
+        "common"
+      ]
     },
     {
       "id": "compose",
@@ -22,7 +28,12 @@
       "description": "UI framework for KMP",
       "icon": "🎨",
       "color": "#9B59B6",
-      "platform": ["common", "android", "ios", "desktop"]
+      "platform": [
+        "common",
+        "android",
+        "ios",
+        "desktop"
+      ]
     },
     {
       "id": "navigation",
@@ -30,7 +41,9 @@
       "description": "Navigation component for Compose",
       "icon": "🧭",
       "color": "#3498DB",
-      "platform": ["common"]
+      "platform": [
+        "common"
+      ]
     },
     {
       "id": "coil",
@@ -38,7 +51,9 @@
       "description": "Image loading library for Compose",
       "icon": "🖼️",
       "color": "#E74C3C",
-      "platform": ["common"]
+      "platform": [
+        "common"
+      ]
     },
     {
       "id": "datastore",
@@ -46,7 +61,9 @@
       "description": "Data storage solution",
       "icon": "💾",
       "color": "#F39C12",
-      "platform": ["common"]
+      "platform": [
+        "common"
+      ]
     },
     {
       "id": "serialization",
@@ -54,7 +71,9 @@
       "description": "JSON serialization",
       "icon": "📦",
       "color": "#16A085",
-      "platform": ["common"]
+      "platform": [
+        "common"
+      ]
     },
     {
       "id": "coroutines",
@@ -62,7 +81,9 @@
       "description": "Asynchronous programming",
       "icon": "⚡",
       "color": "#8E44AD",
-      "platform": ["common"]
+      "platform": [
+        "common"
+      ]
     },
     {
       "id": "firebase",
@@ -70,7 +91,9 @@
       "description": "Firebase services for Android",
       "icon": "🔥",
       "color": "#FF9800",
-      "platform": ["android"]
+      "platform": [
+        "android"
+      ]
     },
     {
       "id": "testing",
@@ -78,7 +101,9 @@
       "description": "Testing libraries",
       "icon": "🧪",
       "color": "#27AE60",
-      "platform": ["common"]
+      "platform": [
+        "common"
+      ]
     },
     {
       "id": "socketio",
@@ -86,7 +111,9 @@
       "description": "Real-time communication",
       "icon": "🔌",
       "color": "#34495E",
-      "platform": ["common"]
+      "platform": [
+        "common"
+      ]
     }
   ],
   "dependencies": [
@@ -147,7 +174,7 @@
     {
       "id": "koin-core",
       "categoryId": "koin",
-      "name": "koin-core",
+      "name": "koin",
       "version": "4.1.1",
       "module": "io.insert-koin:koin-core",
       "platform": "common",
@@ -160,7 +187,7 @@
       "version": "4.1.1",
       "module": "io.insert-koin:koin-compose",
       "platform": "common",
-      "required": false
+      "required": true
     },
     {
       "id": "koin-compose-viewmodel",
@@ -169,7 +196,7 @@
       "version": "4.1.1",
       "module": "io.insert-koin:koin-compose-viewmodel",
       "platform": "common",
-      "required": false
+      "required": true
     },
     {
       "id": "koin-annotations",
@@ -178,7 +205,7 @@
       "version": "2.1.0",
       "module": "io.insert-koin:koin-annotations",
       "platform": "common",
-      "required": false
+      "required": true
     },
     {
       "id": "koin-ksp-compiler",
@@ -187,7 +214,7 @@
       "version": "2.1.0",
       "module": "io.insert-koin:koin-ksp-compiler",
       "platform": "common",
-      "required": false
+      "required": true
     },
     {
       "id": "androidx-activity-compose",
@@ -342,15 +369,15 @@
       "steps": [
         {
           "title": "Add Dependencies",
-          "content": "Add the following to your libs.versions.toml file:\n\n```toml\n[versions]\nktor = \"3.3.1\"\n\n[libraries]\nktor-client-core = { module = \"io.ktor:ktor-client-core\", version.ref = \"ktor\" }\nktor-client-okhttp = { module = \"io.ktor:ktor-client-okhttp\", version.ref = \"ktor\" }\nktor-client-darwin = { module = \"io.ktor:ktor-client-darwin\", version.ref = \"ktor\" }\nktor-client-logging = { module = \"io.ktor:ktor-client-logging\", version.ref = \"ktor\" }\nktor-client-content-negotiation = { module = \"io.ktor:ktor-client-content-negotiation\", version.ref = \"ktor\" }\nktor-serialization-kotlinx-json = { module = \"io.ktor:ktor-serialization-kotlinx-json\", version.ref = \"ktor\" }\n```"
+          "content": "Add the following to your libs.versions.toml file:\n\n```toml\n[versions]\nktor = \"3.3.1\"\nkotlinSerialization = \"2.0.21\"\n\n[libraries]\nktor-client-core = { module = \"io.ktor:ktor-client-core\", version.ref = \"ktor\" }\nktor-client-okhttp = { module = \"io.ktor:ktor-client-okhttp\", version.ref = \"ktor\" }\nktor-client-darwin = { module = \"io.ktor:ktor-client-darwin\", version.ref = \"ktor\" }\nktor-client-logging = { module = \"io.ktor:ktor-client-logging\", version.ref = \"ktor\" }\nktor-client-content-negotiation = { module = \"io.ktor:ktor-client-content-negotiation\", version.ref = \"ktor\" }\nktor-serialization-kotlinx-json = { module = \"io.ktor:ktor-serialization-kotlinx-json\", version.ref = \"kotlinSerialization \" }\n\n\n\n[plugins]\nkotlin-serialization = { id = \"org.jetbrains.kotlin.plugin.serialization\", version.ref = \"kotlinSerialization\" }\n\n\n\n// without catelog for android only can use above one also tho\n    implementation(\"io.ktor:ktor-client-core:2.3.12\")\n    implementation(\"io.ktor:ktor-client-android:2.3.12\")\n    implementation(\"io.ktor:ktor-client-content-negotiation:2.3.12\")\n    implementation(\"io.ktor:ktor-serialization-kotlinx-json:2.3.12\")\n```"
         },
         {
           "title": "Configure build.gradle.kts",
-          "content": "In your shared module's build.gradle.kts:\n\n```kotlin\nkotlin {\n    sourceSets {\n        commonMain.dependencies {\n            implementation(libs.ktor.client.core)\n            implementation(libs.ktor.client.logging)\n            implementation(libs.ktor.client.content.negotiation)\n            implementation(libs.ktor.serialization.kotlinx.json)\n        }\n        \n        androidMain.dependencies {\n            implementation(libs.ktor.client.okhttp)\n        }\n        \n        iosMain.dependencies {\n            implementation(libs.ktor.client.darwin)\n        }\n    }\n}\n```"
+          "content": "In your shared module's build.gradle.kts:\n\n\n```kotlin\n\nplugins{\n          alias(libs.plugins.kotlin.serialization)\n}\n\nkotlin {\n    sourceSets {\n        commonMain.dependencies {\n            implementation(libs.ktor.client.core)\n            implementation(libs.ktor.client.logging)\n            implementation(libs.ktor.client.content.negotiation)\n            implementation(libs.ktor.serialization.kotlinx.json)\n        }\n        \n        androidMain.dependencies {\n            implementation(libs.ktor.client.okhttp)\n        }\n        \n        iosMain.dependencies {\n            implementation(libs.ktor.client.darwin)\n        }\n    }\n}\n```"
         },
         {
           "title": "Create HTTP Client",
-          "content": "Create a common HTTP client:\n\n```kotlin\nimport io.ktor.client.*\nimport io.ktor.client.plugins.contentnegotiation.*\nimport io.ktor.client.plugins.logging.*\nimport io.ktor.serialization.kotlinx.json.*\nimport kotlinx.serialization.json.Json\n\nfun createHttpClient(): HttpClient {\n    return HttpClient {\n        install(ContentNegotiation) {\n            json(Json {\n                prettyPrint = true\n                isLenient = true\n                ignoreUnknownKeys = true\n            })\n        }\n        \n        install(Logging) {\n            logger = Logger.DEFAULT\n            level = LogLevel.INFO\n        }\n    }\n}\n```"
+          "content": "Create a common HTTP client:\n\n```kotlin\nimport io.ktor.client.*\nimport io.ktor.client.plugins.contentnegotiation.*\nimport io.ktor.client.plugins.logging.*\nimport io.ktor.serialization.kotlinx.json.*\nimport kotlinx.serialization.json.Json\n\nfun createHttpClient(): HttpClient {\n    install(ContentNegotiation) {\n            json(Json {\n                prettyPrint = true\n                isLenient = true\n                ignoreUnknownKeys = true\n            })\n        }\n        \n        install(Logging) {\n            logger = Logger.DEFAULT\n            level = LogLevel.INFO\n        }\n    \n        \n}\n```"
         },
         {
           "title": "Make API Calls",
@@ -365,19 +392,19 @@
       "steps": [
         {
           "title": "Add Dependencies",
-          "content": "Add to libs.versions.toml:\n\n```toml\n[versions]\nkoin-core = \"4.1.1\"\nkoin-annotations = \"2.1.0\"\nksp = \"2.2.20-2.0.2\"\n\n[libraries]\nkoin-core = { module = \"io.insert-koin:koin-core\", version.ref = \"koin-core\" }\nkoin-compose = { module = \"io.insert-koin:koin-compose\", version.ref = \"koin-core\" }\nkoin-compose-viewmodel = { module = \"io.insert-koin:koin-compose-viewmodel\", version.ref = \"koin-core\" }\nkoin-annotations = { module = \"io.insert-koin:koin-annotations\", version.ref = \"koin-annotations\" }\nkoin-ksp-compiler = { module = \"io.insert-koin:koin-ksp-compiler\", version.ref = \"koin-annotations\" }\n\n[plugins]\nksp = { id = \"com.google.devtools.ksp\", version.ref = \"ksp\" }\n```"
+          "content": "Add to libs.versions.toml:\n\n```toml\n[versions]\nkoin-core = \"4.1.1\"\nkoin-annotations = \"2.1.0\"\nksp = \"2.2.20-2.0.2\"\n\n[libraries]\n#koin\nkoin-core = { module = \"io.insert-koin:koin-core\", version.ref = \"koin-core\" }\nkoin-compose = { module = \"io.insert-koin:koin-compose\", version.ref = \"koin-core\" }\nkoin-compose-viewmodel = { module = \"io.insert-koin:koin-compose-viewmodel\", version.ref = \"koin-core\" }\nkoin-compose-viewmodel-navigation = { module = \"io.insert-koin:koin-compose-viewmodel-navigation\", version.ref = \"koin-core\" }\nkoin-annotations = { module = \"io.insert-koin:koin-annotations\", version.ref = \"koin-annotations\" }\nkoin-ksp-compiler = { module = \"io.insert-koin:koin-ksp-compiler\", version.ref = \"koin-annotations\" }\n\n[plugins]\nksp = { id = \"com.google.devtools.ksp\", version.ref = \"ksp\" }\n\n```"
         },
         {
           "title": "Apply KSP Plugin",
-          "content": "In your shared module's build.gradle.kts:\n\n```kotlin\nplugins {\n    alias(libs.plugins.ksp)\n}\n\nkotlin {\n    sourceSets.commonMain {\n        kotlin.srcDir(\"build/generated/ksp/metadata/commonMain/kotlin\")\n    }\n}\n```"
+          "content": "In your shared module's build.gradle.kts:\n\n```kotlin\nplugins {\n    alias(libs.plugins.ksp)\n}\n//only if kmp\n\nkotlin {\n    sourceSets.commonMain {\n        kotlin.srcDir(\"build/generated/ksp/metadata/commonMain/kotlin\")\n    }\n}\n\n//at the end \nksp {\n    arg(\"KOIN_CONFIG_CHECK\",\"true\")\n}\n\n```"
         },
         {
           "title": "Define Modules",
-          "content": "Create Koin modules:\n\n```kotlin\nimport org.koin.core.annotation.ComponentScan\nimport org.koin.core.annotation.Module\n\n@Module\n@ComponentScan(\"com.yourapp\")\nclass AppModule\n\n// Or manually:\nval networkModule = module {\n    single { createHttpClient() }\n    single { ApiService(get()) }\n}\n\nval viewModelModule = module {\n    viewModel { MainViewModel(get()) }\n}\n```"
+          "content": "Create Koin modules:\n\n```kotlin\nimport org.koin.core.annotation.ComponentScan\nimport org.koin.core.annotation.Module\n\n@Module\nclass NetworkModule{\n    @Single\n    val httpClient : HttpClient(){\n      install(ContentNegotation){\n           Json()\n      }\n\n    install(HttpTimeOut){\n      socketTimeOut = 2_000;\n      //other time outs\n}\n    \n}\n```"
         },
         {
           "title": "Initialize Koin",
-          "content": "In your common code:\n\n```kotlin\nimport org.koin.core.context.startKoin\nimport org.koin.ksp.generated.*\n\nfun initKoin() {\n    startKoin {\n        modules(\n            AppModule().module,\n            networkModule,\n            viewModelModule\n        )\n    }\n}\n```"
+          "content": "In your common code:\n\n```kotlin\nimport org.koin.core.context.startKoin\nimport org.koin.ksp.generated.*\n\nfun initKoin() {\n    startKoin {\n        modules(\n            NetworkModule().module,\n        )\n    }\n}\n```"
         },
         {
           "title": "Inject Dependencies",
