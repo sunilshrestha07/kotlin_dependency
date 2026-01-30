@@ -396,7 +396,7 @@
         },
         {
           "title": "Apply KSP Plugin",
-          "content": "In your shared module's build.gradle.kts:\n\n```kotlin\nplugins {\n    alias(libs.plugins.ksp)\n}\n\n\ndependencies{\n  implementation(libs.koin.core)\n                implementation(libs.koin.compose)\n                implementation(libs.koin.compose.viewmodel)\n                implementation(libs.koin.compose.viewmodel.navigation)\n}\n//only if kmp\n\nkotlin {\n    sourceSets.commonMain {\n        kotlin.srcDir(\"build/generated/ksp/metadata/commonMain/kotlin\")\n    }\n}\n\n//at the end \nksp {\n    arg(\"KOIN_CONFIG_CHECK\",\"true\")\n}\n\n```"
+          "content": "In your shared module's build.gradle.kts:\n\n```kotlin\nplugins {\n    alias(libs.plugins.ksp)\n}\n\n\ndependencies{\n  implementation(libs.koin.core)\n  implementation(libs.koin.compose)\n  implementation(libs.koin.compose.viewmodel)\n  implementation(libs.koin.compose.viewmodel.navigation)\n  api(libs.koin.annotations)\n}\n//only if kmp\n\nkotlin {\n    sourceSets.commonMain {\n        kotlin.srcDir(\"build/generated/ksp/metadata/commonMain/kotlin\")\n    }\n}\n\n//at the end \nksp {\n    arg(\"KOIN_CONFIG_CHECK\",\"true\")\n}\n\n```"
         },
         {
           "title": "Define Modules",
