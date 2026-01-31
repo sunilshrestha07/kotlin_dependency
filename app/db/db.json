@@ -359,6 +359,24 @@
       "module": "com.piasy:kmp-socketio",
       "platform": "common",
       "required": true
+    },
+    {
+      "name": "splashScreen",
+      "version": "1.0.0",
+      "module": "sdjfhkdsh",
+      "categoryId": "ktor",
+      "platform": "android",
+      "required": true,
+      "id": "splashScreen-1769873079580"
+    },
+    {
+      "name": "coreSplashscreen",
+      "version": "coreSplashscreen = \"1.2.0\"",
+      "module": "\"androidx.core:core-splashscreen\"",
+      "categoryId": "ktor",
+      "platform": "android",
+      "required": true,
+      "id": "coreSplashscreen-1769875754272"
     }
   ],
   "guides": [
@@ -558,6 +576,59 @@
           "content": "```kotlin\nimport com.piasy.kmp.socketio.SocketIO\nimport com.piasy.kmp.socketio.SocketIOOptions\n\nclass SocketManager {\n    private val socket = SocketIO.create(\n        \"https://your-socket-server.com\",\n        SocketIOOptions()\n    )\n    \n    fun connect() {\n        socket.on(\"message\") { args ->\n            println(\"Received: ${args.first()}\")\n        }\n        socket.connect()\n    }\n    \n    fun emit(event: String, data: String) {\n        socket.emit(event, data)\n    }\n    \n    fun disconnect() {\n        socket.disconnect()\n    }\n}\n```"
         }
       ]
+    }
+  ],
+  "posts": [
+    {
+      "id": "getting-started-kmp",
+      "title": "Getting Started with Kotlin Multiplatform: A Comprehensive Guide",
+      "excerpt": "Learn the fundamentals of KMP and how to set up your first cross-platform project sharing logic between Android and iOS.",
+      "content": "Kotlin Multiplatform (KMP) allows you to share code between platforms while keeping the native programming benefits. In this guide, we'll walk through the detailed process of setting up a new KMP project.\n\n### Prerequisites\n\n1.  **JDK 17+**: Ensure you have a compatible Java Development Kit installed.\n2.  **Android Studio**: The recommended IDE for KMP development.\n3.  **Xcode**: Required for iOS development (macOS only).\n4.  **Kotlin Multiplatform Plugin**: Install this plugin in Android Studio.\n\n### Step 1: Create a New Project\n\nOpen Android Studio and select **New Project**. Choose **Kotlin Multiplatform App** from the templates. This template sets up a shared module along with Android and iOS apps.\n\n### Step 2: Understanding the Structure\n\n*   `shared/`: This is where your common logic lives.\n    *   `commonMain/`: Code shared across all platforms.\n    *   `androidMain/`: Android-specific implementations.\n    *   `iosMain/`: iOS-specific implementations.\n*   `composeApp/`: Your shared Compose Multiplatform UI (if selected).\n*   `iosApp/`: The native iOS entry point.\n\n### Step 3: Writing Your First Shared Code\n\nOpen `shared/src/commonMain/kotlin/Greeting.kt`. You'll see a class that might look like this:\n\n```kotlin\nclass Greeting {\n    private val platform: Platform = getPlatform()\n\n    fun greet(): String {\n        return \"Hello, ${platform.name}!\"\n    }\n}\n```\n\nThis simple class demonstrates the core power of KMP: `getPlatform()` is an `expect` function with `actual` implementations in `androidMain` and `iosMainKey`.\n\n### Step 4: Running the App\n\n*   **Android**: Select the `composeApp` configuration and run it on an emulator.\n*   **iOS**: Select the `iosApp` configuration and run it on a simulator (requires macOS).\n\n### Conclusion\n\nYou've just set up your first KMP project! From here, you can start adding dependencies like Ktor for networking and SQLDelight for database storage to build robust cross-platform applications.",
+      "date": "2024-03-15",
+      "author": "Alex Dev",
+      "tags": [
+        "KMP",
+        "Tutorial",
+        "Basics"
+      ]
+    },
+    {
+      "id": "advanced-dependency-injection-koin",
+      "title": "Deep Dive into Dependency Injection with Koin in KMP",
+      "excerpt": "Master dependency injection in Kotlin Multiplatform using Koin. detailed setup, modules, and platform-specific injections.",
+      "content": "Dependency Injection (DI) is crucial for scalable apps. Koin is a pragmatic lightweight DI framework for Kotlin developers. Let's look at an in-depth process for integrating Koin in KMP.\n\n### 1. Setting Up Dependencies\n\nIn your `libs.versions.toml`:\n\n```toml\n[versions]\nkoin = \"4.0.0\"\n\n[libraries]\nkoin-core = { module = \"io.insert-koin:koin-core\", version.ref = \"koin\" }\nkoin-android = { module = \"io.insert-koin:koin-android\", version.ref = \"koin\" }\n```\n\n### 2. Defining Modules\n\nIn `shared/src/commonMain/kotlin/di/AppModule.kt`:\n\n```kotlin\nimport org.koin.dsl.module\n\nval appModule = module {\n    single { Greeting() }\n    factory { MyViewModel(get()) }\n}\n```\n\n### 3. Platform Specific Modules\n\nSometimes you need platform-specific classes (like `Context` on Android or `NSUserDefaults` on iOS).\n\n**Common**:\n```kotlin\nexpect val platformModule: Module\n```\n\n**Android**:\n```kotlin\nactual val platformModule = module {\n    single { AndroidDriver(...) }\n}\n```\n\n**iOS**:\n```kotlin\nactual val platformModule = module {\n    single { NativeDriver(...) }\n}\n```\n\n### 4. Initialization\n\nYou need to initialize Koin once. Create a helper in `commonMain`:\n\n```kotlin\nfun initKoin(appDeclaration: KoinAppDeclaration = {}) = startKoin {\n    appDeclaration()\n    modules(appModule, platformModule)\n}\n```\n\n### 5. Using in ViewModels\n\nWith `koin-compose`, you can inject standard Koin components easily into your Compose Multiplatform UI:\n\n```kotlin\n@Composable\nfun UserScreen() {\n    val viewModel: UserViewModel = koinViewModel()\n    // ...\n}\n```\n\nKoin simplifies state management across boundaries, ensuring your business logic remains testable and decoupled.",
+      "date": "2024-03-20",
+      "author": "Sarah Engineer",
+      "tags": [
+        "Koin",
+        "Architecture",
+        "DI"
+      ]
+    },
+    {
+      "id": "sqldelight-database-management",
+      "title": "Managing Local Data with SQLDelight in Multiplatform Projects",
+      "excerpt": "A step-by-step process for implementing caching and offline storage using SQLDelight.",
+      "content": "SQLDelight generates typesafe Kotlin APIs from your SQL statements. It's the gold standard for databases in KMP.\n\n### Step 1: Gradle Setup\n\nApply the plugin in `build.gradle.kts`:\n\n```kotlin\nplugins {\n    id(\"app.cash.sqldelight\") version \"2.0.1\"\n}\n\nsqldelight {\n    databases {\n        create(\"AppDatabase\") {\n            packageName.set(\"com.example.db\")\n        }\n    }\n}\n```\n\n### Step 2: Define Schema\n\nCreate `src/commonMain/sqldelight/com/example/db/AppDatabase.sq`:\n\n```sql\nCREATE TABLE Player (\n  player_number INTEGER NOT NULL,\n  full_name TEXT NOT NULL\n);\n\nselectAll:\nSELECT * FROM Player;\n\ninsert:\nINSERT INTO Player(player_number, full_name)\nVALUES (?, ?);\n```\n\n### Step 3: Drivers\n\nYou need different drivers for each platform.\n\n*   **Android**: `AndroidSqliteDriver`\n*   **iOS**: `NativeSqliteDriver`\n*   **Desktop**: `JdbcSqliteDriver`\n\n### Step 4: Logic Integration\n\n```kotlin\nclass DatabaseHelper(private val database: AppDatabase) {\n    fun getAllPlayers(): List<Player> {\n        return database.appDatabaseQueries.selectAll().executeAsList()\n    }\n}\n```\n\nThis setup ensures your data layer is completely shared, with only the driver creation being platform-specific.",
+      "date": "2024-03-25",
+      "author": "Mike Coder",
+      "tags": [
+        "Database",
+        "SQLDelight",
+        "Offline"
+      ]
+    },
+    {
+      "title": "data store encrypted",
+      "author": "suneel shrestha",
+      "excerpt": "suiii",
+      "content": "",
+      "pdfUrl": "/uploads/1769875486033-Android_Encrypted_Data_Store_Documentation.pdf",
+      "tags": [
+        "kmp"
+      ],
+      "id": "data-store-encrypted",
+      "date": "2026-01-31T16:04:46.058Z"
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Plus, Search, Filter, Package } from 'lucide-react'
+import { Plus, Search, Filter, Package, BookOpen } from 'lucide-react'
 import Link from 'next/link'
 
 interface Category {
@@ -132,6 +132,12 @@ export default function Home() {
               />
             </div>
             <div className="flex gap-3">
+              <Link href="/blog">
+                 <button className="px-6 py-3 bg-white text-slate-700 border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-violet-300 hover:text-violet-600 hover:shadow-lg transition-all duration-300 flex items-center gap-2 font-semibold">
+                    <BookOpen className="w-5 h-5" />
+                    Blog
+                 </button>
+              </Link>
               <div className="relative">
                 <Filter className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <select
