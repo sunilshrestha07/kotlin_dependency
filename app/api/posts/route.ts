@@ -51,3 +51,26 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Failed to create post' }, { status: 500 })
   }
 }
+
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json()
+    const fileContents = await fs.readFile(DB_PATH, 'utf8')
+    const db = JSON.parse(fileContents)
+
+    const index = db.posts.findIndex((p: any) => p.id === body.id)
+    if (index !== -1) {
+       // Preserve original creation date if not provided (though usually we don't update it)
+       // Update other fields
+       db.posts[index] = { ...db.posts[index], ...body }
+
+       await fs.writeFile(DB_PATH, JSON.stringify(db, null, 2))
+       return NextResponse.json(db.posts[index])
+    }
+
+    return NextResponse.json({ error: 'Post not found' }, { status: 404 })
+  } catch (error) {
+    console.error('Update Post Error:', error)
+    return NextResponse.json({ error: 'Failed to update post' }, { status: 500 })
+  }
+}

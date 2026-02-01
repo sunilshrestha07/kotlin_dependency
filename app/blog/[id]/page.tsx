@@ -126,7 +126,13 @@ export default function BlogPostPage() {
                     <Calendar className="w-5 h-5" />
                     <span>{new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                 </div>
-                 <div className="flex items-center gap-2 ml-auto">
+                <div className="flex items-center gap-2 ml-auto">
+                    <button
+                        onClick={() => router.push(`/blog/edit/${post.id}`)}
+                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-pink-50 hover:bg-pink-100 transition-colors text-pink-600"
+                    >
+                         <span className="text-sm font-semibold">Edit</span>
+                    </button>
                     <button
                         onClick={handleShare}
                         className="flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-50 hover:bg-slate-100 transition-colors"

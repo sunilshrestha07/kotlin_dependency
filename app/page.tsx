@@ -268,6 +268,7 @@ function AddDependencyModal({
   onAdd: () => void
   categories: Category[]
 }) {
+  const [activeTab, setActiveTab] = useState<'dependency' | 'category'>('dependency')
   const [formData, setFormData] = useState({
     name: '',
     version: '',
@@ -277,25 +278,60 @@ function AddDependencyModal({
     required: false
   })
 
+  const [categoryData, setCategoryData] = useState({
+    name: '',
+    description: '',
+    icon: '📦',
+    color: '#6366f1',
+    platform: ['common']
+  })
+
+  const platforms = ['common', 'android', 'ios', 'desktop']
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const newDependency = {
-      ...formData,
-      id: `${formData.name}-${Date.now()}`
-    }
+    if (activeTab === 'dependency') {
+      const newDependency = {
+        ...formData,
+        id: `${formData.name}-${Date.now()}`
+      }
 
-    try {
-      await fetch('/api/dependencies', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newDependency)
-      })
-      onAdd()
-      onClose()
-    } catch (error) {
-      console.error('Error adding dependency:', error)
+      try {
+        await fetch('/api/dependencies', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(newDependency)
+        })
+        onAdd()
+        onClose()
+      } catch (error) {
+        console.error('Error adding dependency:', error)
+      }
+    } else {
+      try {
+        await fetch('/api/categories', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(categoryData)
+        })
+        onAdd()
+        onClose()
+      } catch (error) {
+        console.error('Error adding category:', error)
+      }
     }
+  }
+
+  const togglePlatform = (p: string) => {
+    setCategoryData(prev => {
+      const current = prev.platform
+      if (current.includes(p)) {
+        return { ...prev, platform: current.filter(plat => plat !== p) }
+      } else {
+        return { ...prev, platform: [...current, p] }
+      }
+    })
   }
 
   return (
@@ -304,96 +340,212 @@ function AddDependencyModal({
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
-        className="glass-card rounded-2xl p-8 max-w-md w-full shadow-2xl"
+        className="glass-card rounded-2xl p-8 max-w-md w-full shadow-2xl max-h-[90vh] overflow-y-auto"
       >
-        <h2 className="text-3xl font-bold mb-6 gradient-text">Add New Dependency</h2>
+        <div className="flex bg-slate-100 rounded-lg p-1 mb-6">
+          <button
+            className={`flex-1 py-2 text-sm font-semibold rounded-md transition-all ${
+              activeTab === 'dependency'
+                ? 'bg-white text-violet-600 shadow-sm'
+                : 'text-slate-500 hover:text-slate-700'
+            }`}
+            onClick={() => setActiveTab('dependency')}
+          >
+            Add Dependency
+          </button>
+          <button
+            className={`flex-1 py-2 text-sm font-semibold rounded-md transition-all ${
+              activeTab === 'category'
+                ? 'bg-white text-violet-600 shadow-sm'
+                : 'text-slate-500 hover:text-slate-700'
+            }`}
+            onClick={() => setActiveTab('category')}
+          >
+            Add Category
+          </button>
+        </div>
+
+        <h2 className="text-3xl font-bold mb-6 gradient-text">
+          {activeTab === 'dependency' ? 'Add New Dependency' : 'Add New Category'}
+        </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              Dependency Name
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
-              placeholder="e.g., ktor-client-core"
-            />
-          </div>
+          {activeTab === 'dependency' ? (
+            <>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Dependency Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  placeholder="e.g., ktor-client-core"
+                />
+              </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              Version
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.version}
-              onChange={(e) => setFormData({ ...formData, version: e.target.value })}
-              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
-              placeholder="e.g., 3.3.1"
-            />
-          </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Version
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.version}
+                  onChange={(e) => setFormData({ ...formData, version: e.target.value })}
+                  className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  placeholder="e.g., 3.3.1"
+                />
+              </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              Module
-            </label>
-            <input
-              type="text"
-              required
-              value={formData.module}
-              onChange={(e) => setFormData({ ...formData, module: e.target.value })}
-              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
-              placeholder="e.g., io.ktor:ktor-client-core"
-            />
-          </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Module
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.module}
+                  onChange={(e) => setFormData({ ...formData, module: e.target.value })}
+                  className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  placeholder="e.g., io.ktor:ktor-client-core"
+                />
+              </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              Category
-            </label>
-            <select
-              value={formData.categoryId}
-              onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
-              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
-            >
-              {categories.map(cat => (
-                <option key={cat.id} value={cat.id}>{cat.name}</option>
-              ))}
-            </select>
-          </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Category
+                </label>
+                <select
+                  value={formData.categoryId}
+                  onChange={(e) => setFormData({ ...formData, categoryId: e.target.value })}
+                  className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+                >
+                  {categories.map(cat => (
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
+                </select>
+              </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-slate-700 mb-2">
-              Platform
-            </label>
-            <select
-              value={formData.platform}
-              onChange={(e) => setFormData({ ...formData, platform: e.target.value })}
-              className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
-            >
-              <option value="common">Common</option>
-              <option value="android">Android</option>
-              <option value="ios">iOS</option>
-              <option value="desktop">Desktop</option>
-            </select>
-          </div>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Platform
+                </label>
+                <select
+                  value={formData.platform}
+                  onChange={(e) => setFormData({ ...formData, platform: e.target.value })}
+                  className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+                >
+                  <option value="common">Common</option>
+                  <option value="android">Android</option>
+                  <option value="ios">iOS</option>
+                  <option value="desktop">Desktop</option>
+                </select>
+              </div>
 
-          <div className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              id="required"
-              checked={formData.required}
-              onChange={(e) => setFormData({ ...formData, required: e.target.checked })}
-              className="w-4 h-4 text-violet-600 rounded focus:ring-2 focus:ring-violet-500"
-            />
-            <label htmlFor="required" className="text-sm font-semibold text-slate-700">
-              Required dependency
-            </label>
-          </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  id="required"
+                  checked={formData.required}
+                  onChange={(e) => setFormData({ ...formData, required: e.target.checked })}
+                  className="w-4 h-4 text-violet-600 rounded focus:ring-2 focus:ring-violet-500"
+                />
+                <label htmlFor="required" className="text-sm font-semibold text-slate-700">
+                  Required dependency
+                </label>
+              </div>
+            </>
+          ) : (
+            <>
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Category Name
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={categoryData.name}
+                  onChange={(e) => setCategoryData({ ...categoryData, name: e.target.value })}
+                  className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  placeholder="e.g., Network"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Description
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={categoryData.description}
+                  onChange={(e) => setCategoryData({ ...categoryData, description: e.target.value })}
+                  className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  placeholder="Short description..."
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Icon (Emoji)
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    maxLength={2}
+                    value={categoryData.icon}
+                    onChange={(e) => setCategoryData({ ...categoryData, icon: e.target.value })}
+                    className="w-full px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 text-center text-2xl"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    Color
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="color"
+                      value={categoryData.color}
+                      onChange={(e) => setCategoryData({ ...categoryData, color: e.target.value })}
+                      className="h-10 w-10 rounded cursor-pointer border-0"
+                    />
+                    <input
+                      type="text"
+                      value={categoryData.color}
+                      onChange={(e) => setCategoryData({ ...categoryData, color: e.target.value })}
+                      className="flex-1 px-4 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 font-mono text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Supported Platforms
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {platforms.map(p => (
+                    <button
+                      key={p}
+                      type="button"
+                      onClick={() => togglePlatform(p)}
+                      className={`px-3 py-1 rounded-full text-sm border transition-all ${
+                        categoryData.platform.includes(p)
+                          ? 'bg-violet-100 border-violet-500 text-violet-700'
+                          : 'bg-white border-slate-200 text-slate-500 hover:border-violet-300'
+                      }`}
+                    >
+                      {p}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
 
           <div className="flex gap-3 pt-4">
             <button
@@ -407,7 +559,7 @@ function AddDependencyModal({
               type="submit"
               className="flex-1 px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white rounded-lg hover:shadow-lg transition-all font-semibold"
             >
-              Add Dependency
+              {activeTab === 'dependency' ? 'Add Dependency' : 'Create Category'}
             </button>
           </div>
         </form>

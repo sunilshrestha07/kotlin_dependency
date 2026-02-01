@@ -114,6 +114,40 @@
       "platform": [
         "common"
       ]
+    },
+    {
+      "name": "Work manager",
+      "description": "this is the work manager for the jobs to be scheduled and needs to be completed",
+      "icon": "📦",
+      "color": "#6366f1",
+      "platform": [
+        "common",
+        "android"
+      ],
+      "id": "work-manager",
+      "dependencies": []
+    },
+    {
+      "name": "Alarm manager",
+      "description": "Schedule events ",
+      "icon": "⌚",
+      "color": "#6366f1",
+      "platform": [
+        "android"
+      ],
+      "id": "alarm-manager",
+      "dependencies": []
+    },
+    {
+      "name": "splashscreen",
+      "description": "setup splashscreen",
+      "icon": "📱",
+      "color": "#6366f1",
+      "platform": [
+        "common"
+      ],
+      "id": "splashscreen",
+      "dependencies": []
     }
   ],
   "dependencies": [
@@ -377,6 +411,24 @@
       "platform": "android",
       "required": true,
       "id": "coreSplashscreen-1769875754272"
+    },
+    {
+      "name": "androidx-work-runtime-ktx",
+      "version": "workRuntimeKtx = \"2.11.1\"",
+      "module": "androidx.work:work-runtime-ktx",
+      "categoryId": "work-manager",
+      "platform": "android",
+      "required": true,
+      "id": "androidx-work-runtime-ktx-1769921328806"
+    },
+    {
+      "name": "androidx-core-splashscreen",
+      "version": "coreSplashscreen = \"1.2.0\"",
+      "module": "androidx.core:core-splashscreen",
+      "categoryId": "splashscreen",
+      "platform": "android",
+      "required": true,
+      "id": "androidx-core-splashscreen-1769934251625"
     }
   ],
   "guides": [
@@ -576,13 +628,47 @@
           "content": "```kotlin\nimport com.piasy.kmp.socketio.SocketIO\nimport com.piasy.kmp.socketio.SocketIOOptions\n\nclass SocketManager {\n    private val socket = SocketIO.create(\n        \"https://your-socket-server.com\",\n        SocketIOOptions()\n    )\n    \n    fun connect() {\n        socket.on(\"message\") { args ->\n            println(\"Received: ${args.first()}\")\n        }\n        socket.connect()\n    }\n    \n    fun emit(event: String, data: String) {\n        socket.emit(event, data)\n    }\n    \n    fun disconnect() {\n        socket.disconnect()\n    }\n}\n```"
         }
       ]
+    },
+    {
+      "id": "guide-work-manager",
+      "categoryId": "work-manager",
+      "title": "Setup Guide",
+      "steps": [
+        {
+          "title": "Gradle ",
+          "content": "\n```\nlib\nversion\nworkRuntimeKtx = \"2.11.1\"\n\n[libraries]\nandroidx-work-runtime-ktx = { module = \"androidx.work:work-runtime-ktx\", version.ref = \"workRuntimeKtx\" }\n\n\ndependencies{\n    implementation(libs.androidx.work.runtime.ktx)\n}\n```\n"
+        },
+        {
+          "title": "create work DemoWorker",
+          "content": "```\nclass DemoWorker(context: Context, params: WorkerParameters) :\n    Worker(context = context, workerParams = params) {\n    override fun doWork(): Result {\n        workLog()\n        return Result.success()\n    }\n\n    private fun workLog() {\n        Thread.sleep(5000)\n        Log.d(\"workManager\", \"workManager executed\")\n    }\n}\n```"
+        },
+        {
+          "title": "Schedule",
+          "content": "```\nclass MainActivity : ComponentActivity() {\n    @RequiresApi(Build.VERSION_CODES.BAKLAVA)\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n        executeWork()\n}\nprivate fun executeWork() {\n        val workManager = WorkManager.getInstance(this)\n        val workRequest = OneTimeWorkRequestBuilder<DemoWorker>()\n            .build()\n        workManager.enqueue(workRequest)\n\n\n        //print the work status\n        workManager.getWorkInfoByIdLiveData(workRequest.id).observe(this) {\n            it?.let {\n                println(\"workManager status ${it.state}\")\n            }\n        }\n    }\n```"
+        }
+      ]
+    },
+    {
+      "id": "guide-alarm-manager",
+      "categoryId": "alarm-manager",
+      "title": "Setup Guide",
+      "steps": [
+        {
+          "title": "AlarmmanagerDemo",
+          "content": "Create manager\n```\npackage com.valentine.ishu.utils\n\nimport android.app.AlarmManager\nimport android.app.PendingIntent\nimport android.content.Context\nimport android.content.Intent\nimport java.util.Calendar\n\nclass ShowNotificationAlarmManager(\n    context: Context\n) {\n    private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager\n\n    val pendingIntent: PendingIntent = PendingIntent.getBroadcast(\n        context,\n        0,\n        Intent(context, AlarmReceiver::class.java),\n        PendingIntent.FLAG_IMMUTABLE\n    )\n\n    fun scheduleAlarm(){\n        val calendar = Calendar.getInstance().apply {\n            timeInMillis = System.currentTimeMillis()\n            set(Calendar.HOUR_OF_DAY, 0)\n            set(Calendar.MINUTE, 0)\n            add(Calendar.DAY_OF_YEAR, 1)\n        }\n        alarmManager.setRepeating(\n            AlarmManager.RTC_WAKEUP,\n            calendar.timeInMillis,\n            AlarmManager.INTERVAL_DAY,\n            pendingIntent\n        )\n    }\n}\n```\ncreate service \n \n```\nclass WorkService : Service() {\n    override fun onBind(intent: Intent?): IBinder? {\n        return null\n    }\n\n    @RequiresApi(Build.VERSION_CODES.O)\n    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {\n        println(\"AlarmReceiver\")\n        return super.onStartCommand(intent, flags, startId)\n    }\n}\n```\n\ncreate reciever this is the broad cast reciever where the notification is shown\n```\npackage com.valentine.ishu.utils\n\nimport android.app.Notification\nimport android.app.NotificationChannel\nimport android.app.NotificationManager\nimport android.app.PendingIntent\nimport android.content.BroadcastReceiver\nimport android.content.Context\nimport android.content.Intent\nimport androidx.core.content.ContextCompat\nimport com.valentine.ishu.MainActivity\nimport com.valentine.ishu.R\nimport java.util.Calendar\n\nclass AlarmReceiver : BroadcastReceiver() {\n    override fun onReceive(context: Context, intent: Intent) {\n        val calendar = Calendar.getInstance()\n        val month = calendar.get(Calendar.MONTH)\n        val day = calendar.get(Calendar.DAY_OF_MONTH)\n\n        val (title, text) = getNotificationContent(month, day)\n        showNotification(context,title= title, text =  text)\n\n    }\n\n    private fun getNotificationContent(month: Int, day: Int): Pair<String, String> {\n        return when {\n            month == Calendar.FEBRUARY && day == 1 -> \"Happy Sunday Day\" to \"This is a special notification\"\n            month == Calendar.FEBRUARY && day == 2 -> \"Happy Monday Day\" to \"This is a Test notification\"\n            month == Calendar.FEBRUARY && day == 3 -> \"Happy Tuesday Day\" to \"This is a special notification\"\n            month == Calendar.FEBRUARY && day == 4 -> \"Happy Wednesday Day\" to \"This is a special notification\"\n            month == Calendar.FEBRUARY && day == 5 -> \"Happy Thursday Day\" to \"This is a special notification\"\n            month == Calendar.FEBRUARY && day == 6 -> \"Happy Friday Day\" to \"This is a special notification\"\n            else -> \"Holiday\" to \"This is a regular notification\"\n        }\n    }\n\n    //show notification\n    private fun showNotification(context: Context, title: String, text: String) {\n        val notificationManager = ContextCompat.getSystemService(\n            context,\n            NotificationManager::class.java\n        ) as NotificationManager\n\n        getNotificationChannel(context)\n        notificationManager.notify(1, notification(context,title= title, text=text))\n    }\n\n    fun getPendingIntent(context: Context): PendingIntent {\n        val intent = Intent(context, MainActivity::class.java)\n        return PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)\n    }\n\n    fun getNotificationChannel(context: Context): NotificationChannel {\n        val channel = NotificationChannel(\"ID\", \"Ishu\", NotificationManager.IMPORTANCE_HIGH)\n        val notificationManager = ContextCompat.getSystemService(\n            context,\n            NotificationManager::class.java\n        ) as NotificationManager\n        notificationManager.createNotificationChannel(channel)\n        return channel\n    }\n\n    fun notification(context: Context,title: String, text: String): Notification {\n        val notification = Notification.Builder(context, \"ID\")\n            .setContentText(text)\n            .setContentTitle(title)\n            .setSmallIcon(R.drawable.ic_launcher_foreground)\n            .setContentIntent(getPendingIntent(context))\n            .build()\n        return notification\n\n    }\n\n}\n\n```\n\nmain activity\n```\n        val alarmManager = ShowNotificationAlarmManager(this)\n   LaunchedEffect(Unit) {\n                    alarmManager.scheduleAlarm()\n                }\n```\n\n\n\n"
+        },
+        {
+          "title": "Manifest.mxl",
+          "content": "```\n<receiver android:name=\".utils.AlarmReceiver\"/>\n        <service\n            android:name=\".utils.WorkService\"\n            android:foregroundServiceType=\"dataSync\"\n            android:enabled=\"true\"\n            android:exported=\"true\" \n/>\n```"
+        }
+      ]
     }
   ],
   "posts": [
     {
       "id": "getting-started-kmp",
-      "title": "Getting Started with Kotlin Multiplatform: A Comprehensive Guide",
-      "excerpt": "Learn the fundamentals of KMP and how to set up your first cross-platform project sharing logic between Android and iOS.",
+      "title": "Getting Started with Kotlin Multiplatform (Updated)",
+      "excerpt": "Updated excerpt for testing.",
       "content": "Kotlin Multiplatform (KMP) allows you to share code between platforms while keeping the native programming benefits. In this guide, we'll walk through the detailed process of setting up a new KMP project.\n\n### Prerequisites\n\n1.  **JDK 17+**: Ensure you have a compatible Java Development Kit installed.\n2.  **Android Studio**: The recommended IDE for KMP development.\n3.  **Xcode**: Required for iOS development (macOS only).\n4.  **Kotlin Multiplatform Plugin**: Install this plugin in Android Studio.\n\n### Step 1: Create a New Project\n\nOpen Android Studio and select **New Project**. Choose **Kotlin Multiplatform App** from the templates. This template sets up a shared module along with Android and iOS apps.\n\n### Step 2: Understanding the Structure\n\n*   `shared/`: This is where your common logic lives.\n    *   `commonMain/`: Code shared across all platforms.\n    *   `androidMain/`: Android-specific implementations.\n    *   `iosMain/`: iOS-specific implementations.\n*   `composeApp/`: Your shared Compose Multiplatform UI (if selected).\n*   `iosApp/`: The native iOS entry point.\n\n### Step 3: Writing Your First Shared Code\n\nOpen `shared/src/commonMain/kotlin/Greeting.kt`. You'll see a class that might look like this:\n\n```kotlin\nclass Greeting {\n    private val platform: Platform = getPlatform()\n\n    fun greet(): String {\n        return \"Hello, ${platform.name}!\"\n    }\n}\n```\n\nThis simple class demonstrates the core power of KMP: `getPlatform()` is an `expect` function with `actual` implementations in `androidMain` and `iosMainKey`.\n\n### Step 4: Running the App\n\n*   **Android**: Select the `composeApp` configuration and run it on an emulator.\n*   **iOS**: Select the `iosApp` configuration and run it on a simulator (requires macOS).\n\n### Conclusion\n\nYou've just set up your first KMP project! From here, you can start adding dependencies like Ktor for networking and SQLDelight for database storage to build robust cross-platform applications.",
       "date": "2024-03-15",
       "author": "Alex Dev",
@@ -629,6 +715,15 @@
       ],
       "id": "data-store-encrypted",
       "date": "2026-01-31T16:04:46.058Z"
+    },
+    {
+      "title": "Alarm Manager",
+      "author": "Suneel shresta",
+      "excerpt": "this shows how to use alarm manager ",
+      "content": "\n```\npackage com.valentine.ishu.utils\n\nimport android.app.AlarmManager\nimport android.app.PendingIntent\nimport android.content.Context\nimport android.content.Intent\n\nclass ShowNotificationAlarmManager(\n    context: Context\n) {\n    private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager\n\n    val pendingIntent: PendingIntent = PendingIntent.getBroadcast(\n        context,\n        0,\n        Intent(context, AlarmReceiver::class.java),\n        PendingIntent.FLAG_IMMUTABLE\n    )\n//show only once in the start after 5 seconds\n\n    fun scheduleAlarm(){\n        val fiveSeconds = 1000 * 5\n        alarmManager.setExactAndAllowWhileIdle(\n            AlarmManager.RTC_WAKEUP,\n            System.currentTimeMillis() + fiveSeconds,\n            pendingIntent\n        )\n//show every 1 min interval \n        alarmManager.setRepeating(\n            AlarmManager.RTC_WAKEUP,\n            System.currentTimeMillis(),\n            1000 * 60,\n            pendingIntent\n        )\n    }\n}\n```\n\nIn main activity\n```\n val alarmManager = ShowNotificationAlarmManager(this)\n LaunchedEffect(Unit) {\n                    alarmManager.scheduleAlarm()\n\n                }\n\n```\n\nIn reciever\n```\nclass AlarmReceiver : BroadcastReceiver() {\n    override fun onReceive(context: Context, intent: Intent) {\n        println(\"AlarmReceiver\")\n        val calendar = Calendar.getInstance()\n        val month = calendar.get(Calendar.MONTH)\n        val day = calendar.get(Calendar.DAY_OF_MONTH)\n\n        val (title, text) = getNotificationContent(month, day)\n        showNotification(context,title= title, text =  text)\n\n    }\n}\n```\n",
+      "tags": [],
+      "id": "alarm-manager",
+      "date": "2026-02-01T06:31:44.341Z"
     }
   ]
 }
