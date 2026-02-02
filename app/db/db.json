@@ -148,6 +148,17 @@
       ],
       "id": "splashscreen",
       "dependencies": []
+    },
+    {
+      "name": "firebase (oauth)",
+      "description": "google oauth",
+      "icon": "🛅",
+      "color": "#6366f1",
+      "platform": [
+        "android"
+      ],
+      "id": "firebase-(oauth)",
+      "dependencies": []
     }
   ],
   "dependencies": [
@@ -429,6 +440,15 @@
       "platform": "android",
       "required": true,
       "id": "androidx-core-splashscreen-1769934251625"
+    },
+    {
+      "name": "firebase dependency",
+      "version": "1.0.0",
+      "module": "",
+      "categoryId": "firebase-(oauth)",
+      "platform": "android",
+      "required": true,
+      "id": "firebase dependency-1770023629782"
     }
   ],
   "guides": [
@@ -660,6 +680,25 @@
         {
           "title": "Manifest.mxl",
           "content": "```\n<receiver android:name=\".utils.AlarmReceiver\"/>\n        <service\n            android:name=\".utils.WorkService\"\n            android:foregroundServiceType=\"dataSync\"\n            android:enabled=\"true\"\n            android:exported=\"true\" \n/>\n```"
+        }
+      ]
+    },
+    {
+      "id": "guide-firebase-(oauth)",
+      "categoryId": "firebase-(oauth)",
+      "title": "Setup Guide",
+      "steps": [
+        {
+          "title": "New Step",
+          "content": "```\nplugins{\nid(\"com.google.gms.google-services\")\n}\n\ndependencies{\n  implementation(platform(\"com.google.firebase:firebase-bom:33.13.0\"))\n  implementation (\"androidx.navigation:navigation-compose:2.7.6\")\n  implementation (\"androidx.lifecycle:lifecycle-runtime-ktx:2.6.2\")\n  implementation (\"com.google.firebase:firebase-auth-ktx:22.3.1\")\n  implementation (\"com.google.android.gms:play-services-auth:20.7.0\")\n}\n```"
+        },
+        {
+          "title": "create button",
+          "content": "```\n\n@Composable\nfun LoginScreen(){\n    val context = LocalContext.current\n    val googleSignInOptions = remember {\n        GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)\n            .requestIdToken(context.getString(R.string.client_id))\n            .requestEmail()\n            .build()\n    }\n\n    val googleSignInClient = remember {\n        GoogleSignIn.getClient(context,googleSignInOptions)\n    }\n\n\n\n\n    val launcher = rememberLauncherForActivityResult(\n        contract = ActivityResultContracts.StartActivityForResult()\n    ) {result ->\n        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)\n        try {\n            val account = task.result\n            val credential = GoogleAuthProvider.getCredential(account.idToken,null)\n            Firebase.auth.signInWithCredential(credential)\n                .addOnCompleteListener { task ->\n                    if(task.isSuccessful){\n                        Log.d(\"GOOGLE_OAUTH\", \"login success ${task.result.user?.email}\")\n                    }else{\n                        Log.d(\"GOOGLE_OAUTH\", \"login failed \")\n                    }\n                }\n\n        }catch (e: Exception){\n            e.printStackTrace()\n        }\n    }\n\n\n    fun signOut(){\n        Firebase.auth.signOut()\n\n        val googleSignInOption = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)\n            .requestIdToken(context.getString(R.string.client_id))\n            .requestEmail()\n            .build()\n\n        val googleSignClient = GoogleSignIn.getClient(context, googleSignInOptions)\n        googleSignClient.signOut().addOnCompleteListener {\n\n        }\n    }\n    Scaffold() {paddingValues ->\n\n        Column(\n            modifier = Modifier\n                .padding(paddingValues)\n                .fillMaxSize()\n        ) {\n\n            Button(onClick = {\n                val signInIntent = googleSignInClient.signInIntent\n                launcher.launch(signInIntent)\n            }) {\n                Text(\"signin\")\n            }\n\n        }\n    }\n}\n```"
+        },
+        {
+          "title": "Add in main application",
+          "content": "```\nclass OAuthApp: Application() {\n    override fun onCreate() {\n        super.onCreate()\n        FirebaseApp.initializeApp(this)\n    }\n}\n```"
         }
       ]
     }
